@@ -1,15 +1,14 @@
 {
   "expo": {
-    "name": "LearnAndTranslate",
-    "slug": "LearnAndTranslate",
+    "name": "SpentBuddy",
+    "slug": "SpentBuddy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "contain"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -18,13 +17,13 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+      "adaptiveIcon": {}
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

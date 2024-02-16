@@ -5,6 +5,7 @@ node_modules/
 
 # Expo
 .expo/
+.expo-shared/
 dist/
 web-build/
 
@@ -33,3 +34,9 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# IDEs and Editors
+.idea/
+.vscode/ 
+vscode
+*.swp
