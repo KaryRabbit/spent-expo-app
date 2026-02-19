@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import colors from '../colors';
+import shadows from '../shadows';
+import spacing, { radius } from '../spacing';
+import { textStyles } from '../typography';
 import CustomButton from '../components/UI/CustomButton';
 import PasswordInput from '../components/UI/PasswordInput';
 import { changePassword, clearErrors } from '../store/authSlice';
@@ -75,7 +78,7 @@ const Settings = () => {
           title="Clear Data"
           onPress={handleClearData}
           iconName="trash"
-          color={colors.accent}
+          color={colors.error}
         />
       </View>
       {error ? <Text style={styles.error}>{error}</Text> : null}
@@ -88,19 +91,23 @@ export default Settings;
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    gap: 16,
-    margin: 16,
-    flex: 1,
+    gap: spacing.base,
+    margin: spacing.base,
+    padding: spacing.lg,
+    borderRadius: radius.lg,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.base,
   },
   error: {
     textAlign: 'center',
-    color: colors.accent,
-    fontWeight: 'bold',
-    fontSize: 14,
-    marginTop: 8,
-    marginHorizontal: 24,
+    color: colors.error,
+    fontSize: textStyles.small.fontSize,
+    fontWeight: textStyles.smallMedium.fontWeight,
+    marginTop: spacing.xs,
+    marginHorizontal: spacing.base,
   },
-
   loader: {
     flex: 1,
     justifyContent: 'center',

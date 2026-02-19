@@ -1,8 +1,9 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../../colors';
-import { lightenHexColor } from '../../service/tools';
+import shadows from '../../shadows';
+import spacing, { radius } from '../../spacing';
+import { textStyles } from '../../typography';
 import { SwitchProps } from '../../types';
 
 const ToggleSwitch = ({
@@ -15,6 +16,7 @@ const ToggleSwitch = ({
     <TouchableOpacity
       onPress={onSwitch}
       style={styles.container}
+      activeOpacity={0.8}
       accessibilityRole="switch"
       accessibilityState={{ checked: isEnabled }}
     >
@@ -28,21 +30,9 @@ const ToggleSwitch = ({
           {textOff}
         </Text>
 
-        <LinearGradient
-          colors={[colors.primary, lightenHexColor(colors.primary1, 15)]}
-          style={[
-            styles.slider,
-            !isEnabled ? styles.sliderOn : styles.sliderOff,
-          ]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
+        <View
+          style={[styles.slider, !isEnabled ? styles.sliderOn : styles.sliderOff]}
         />
-        {/* <View
-          style={[
-            styles.slider,
-            !isEnabled ? styles.sliderOn : styles.sliderOff,
-          ]}
-        /> */}
         <Text
           style={[
             styles.text,
@@ -58,27 +48,31 @@ const ToggleSwitch = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '70%',
+    width: '84%',
     height: 48,
-    borderRadius: 16,
-    backgroundColor: colors.screenBackground,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
     alignItems: 'center',
-    justifyContent: 'center', // Aligns text to the sides
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.sm,
   },
   slider: {
     position: 'absolute',
     width: '50%',
     height: '100%',
+    backgroundColor: colors.primary,
   },
   sliderOn: {
     left: '50%',
-    borderTopRightRadius: 16,
-    borderBottomRightRadius: 16,
+    borderTopRightRadius: radius.md,
+    borderBottomRightRadius: radius.md,
   },
   sliderOff: {
     left: 0,
-    borderTopLeftRadius: 16,
-    borderBottomLeftRadius: 16,
+    borderTopLeftRadius: radius.md,
+    borderBottomLeftRadius: radius.md,
   },
   textWrapper: {
     flexDirection: 'row',
@@ -86,22 +80,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     height: '100%',
-    borderWidth: 1,
-    borderColor: colors.disabled,
-    borderRadius: 16,
+    borderRadius: radius.md,
   },
   text: {
-    opacity: 0,
     flex: 1,
     textAlign: 'center',
     zIndex: 1,
+    fontSize: textStyles.smallMedium.fontSize,
+    fontWeight: textStyles.smallMedium.fontWeight,
   },
   textActive: {
-    opacity: 1,
-    color: colors.white,
+    color: colors.textInverse,
   },
   textDisabled: {
-    opacity: 0.5,
+    color: colors.textMuted,
   },
 });
 

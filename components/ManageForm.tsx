@@ -3,6 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import colors from '../colors';
+import shadows from '../shadows';
+import spacing, { radius } from '../spacing';
+import { textStyles } from '../typography';
 import { ExpenseItem, ManageProps } from '../types';
 import CustomButton from './UI/CustomButton';
 import Input from './UI/Input';
@@ -120,7 +123,7 @@ const ManageForm = ({ onCancel, onSubmit, value }: ManageProps) => {
             return (
               <FontAwesome
                 name={isOpened ? 'chevron-up' : 'chevron-down'}
-                color={colors.disabled}
+                color={colors.textMuted}
                 size={16}
                 style={{ marginRight: 8 }}
               />
@@ -196,52 +199,65 @@ const ManageForm = ({ onCancel, onSubmit, value }: ManageProps) => {
 
 const styles = StyleSheet.create({
   form: {
-    marginTop: 36,
-    marginHorizontal: 24,
-    gap: 16,
+    marginTop: spacing.lg,
+    marginHorizontal: spacing.base,
+    gap: spacing.base,
+    padding: spacing.lg,
+    borderRadius: radius.lg,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.base,
   },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 8,
+    gap: spacing.sm,
+    marginTop: spacing.sm,
   },
   error: {
-    color: colors.accent,
-    margin: 8,
+    color: colors.error,
+    marginTop: spacing.xs,
     textAlign: 'center',
+    fontSize: textStyles.small.fontSize,
+    fontWeight: textStyles.smallMedium.fontWeight,
   },
   description: {
-    borderRadius: 16,
-    paddingVertical: 63,
+    minHeight: 120,
   },
   dropdown1BtnStyle: {
     width: '100%',
-    minHeight: 56,
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    fontSize: 16,
+    minHeight: 48,
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    fontSize: textStyles.body.fontSize,
     alignSelf: 'center',
-    color: colors.primary,
+    color: colors.textPrimary,
   },
   dropdown1RowTxtStyle: {
-    color: '#444',
+    color: colors.textPrimary,
     textAlign: 'left',
-    marginRight: 16,
-    fontSize: 16,
+    marginRight: spacing.base,
+    fontSize: textStyles.body.fontSize,
   },
   dropdown1BtnTxtStyle: {
-    color: '#444',
+    color: colors.textPrimary,
     textAlign: 'left',
     marginLeft: 0,
-    fontSize: 16,
+    fontSize: textStyles.body.fontSize,
+    fontWeight: textStyles.bodyMedium.fontWeight,
   },
   dropdown1DropdownStyle: {
-    backgroundColor: colors.white,
-    borderRadius: 16,
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   dropdown1RowStyle: {
-    backgroundColor: '#EFEFEF',
-    borderBottomColor: '#C5C5C5',
+    backgroundColor: colors.surfaceSecondary,
+    borderBottomColor: colors.border,
   },
 });
 

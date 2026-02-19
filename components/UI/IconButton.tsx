@@ -1,6 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import colors from '../../colors';
+import spacing from '../../spacing';
 import { CustomButtonProps } from '../../types';
 
 const IconButton = ({
@@ -8,13 +10,28 @@ const IconButton = ({
   onPress,
   color,
   style,
-  size = 25,
+  size = 22,
 }: CustomButtonProps) => {
   return (
-    <TouchableOpacity style={style} onPress={onPress}>
-      <Ionicons name={iconName} size={size} color={color} />
+    <TouchableOpacity
+      style={[styles.container, style]}
+      onPress={onPress}
+      activeOpacity={0.6}
+    >
+      <Ionicons
+        name={iconName as any}
+        size={size}
+        color={color || colors.textSecondary}
+      />
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: spacing.xs,
+    paddingRight: spacing.sm,
+  },
+});
 
 export default IconButton;

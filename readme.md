@@ -1,6 +1,6 @@
 # SpentBuddy
 
-SpentBuddy is a comprehensive finance tracking app built with React Native and Expo, designed to help users manage their expenses efficiently. It features a user-friendly dashboard with insightful charts, manual and CSV expense entry, a detailed transaction history, and customizable settings.
+SpentBuddy is a finance tracking app built with React Native and Expo, designed to help users manage their expenses efficiently. It features a user-friendly dashboard with insightful charts, manual and CSV expense entry, a detailed transaction history, and customizable settings.
 
 ## Features
 
@@ -8,6 +8,7 @@ SpentBuddy is a comprehensive finance tracking app built with React Native and E
 - **Expenses**: Add expenses manually or by uploading a CSV file to easily track your spending.
 - **Transaction History**: View a detailed log of all your transactions to monitor your financial activity.
 - **Settings**: Customize the app settings to tailor the experience to your needs.
+- **Mock Data Ready**: Includes importable mock CSV files for fast local testing.
 
 ## Screenshots
 
@@ -51,7 +52,7 @@ Follow these steps to get your development environment up and running:
 git clone https://github.com/KaryRabbit/spent-expo-app.git
 ```
 
-2. **Install dependencies**
+1. **Install dependencies**
 
 Navigate to the project directory and install the required dependencies:
 
@@ -59,7 +60,7 @@ Navigate to the project directory and install the required dependencies:
 npm install
 ```
 
-3. **Set up environment variables**
+1. **Set up environment variables**
 
 Create a `.env` file in the root of your project directory. Add the following lines to the file, replacing the dummy values with your actual Firebase project configuration:
 
@@ -72,10 +73,49 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id_here
 REACT_APP_FIREBASE_APP_ID=your_firebase_app_id_here
 ```
 
-4. **Start the project with Expo**
+1. **Start the project with Expo**
 
 ```
 npx expo start
+```
+
+## CSV Import Format
+
+Use the **Upload Expenses** action in the Expenses screen.
+
+Expected CSV header:
+
+```
+amount,category,description,date
+```
+
+Example row:
+
+```
+12.40,Food,Coffee,2026-02-03
+```
+
+Notes:
+
+- `amount` should be numeric (decimal supported).
+- `date` should be in `YYYY-MM-DD` format.
+- The app also supports a special Portuguese bank-style CSV format.
+
+## Mock Data Files
+
+The repository includes ready-to-import mock data:
+
+- `mock-expenses.csv`
+- `assets/mock/mock-expenses.csv`
+
+Current dataset is intentionally modest (total spend under `3000`) for more realistic chart behavior.
+
+## Troubleshooting
+
+- If you see stale runtime errors after code changes, clear Expo cache:
+
+```
+npx expo start -c
 ```
 
 ### Running on a Simulator or Physical Device

@@ -73,7 +73,9 @@ export interface ExtendedItemType extends barDataItem {
 
 export interface PasswordInputProps {
   label: string;
-  [key: string]: unknown;
+  invalid?: boolean;
+  onChangeText?: TextInputProps['onChangeText'];
+  value?: TextInputProps['value'];
 }
 
 export interface SwitchProps {

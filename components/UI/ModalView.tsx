@@ -2,12 +2,15 @@ import React from 'react';
 
 import { Modal, StyleSheet, Text, View } from 'react-native';
 import colors from '../../colors';
+import shadows from '../../shadows';
+import spacing, { radius } from '../../spacing';
+import { textStyles } from '../../typography';
 import { ModalProps } from '../../types';
 import CustomButton from './CustomButton';
 const ModalView = ({ text, modalVisible, setModalVisible }: ModalProps) => {
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
@@ -35,26 +38,24 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    backgroundColor: colors.overlay,
   },
   modalView: {
-    marginHorizontal: 24,
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    padding: 32,
-    paddingBottom: 16,
+    marginHorizontal: spacing.lg,
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    paddingBottom: spacing.base,
     alignItems: 'center',
-    shadowColor: colors.disabledText,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.xl,
   },
   modalText: {
-    marginBottom: 8,
+    marginBottom: spacing.md,
     textAlign: 'center',
+    color: colors.textPrimary,
+    fontSize: textStyles.body.fontSize,
+    lineHeight: 24,
   },
 });

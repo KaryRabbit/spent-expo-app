@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import colors from '../colors';
+import shadows from '../shadows';
+import spacing, { radius } from '../spacing';
+import { textStyles } from '../typography';
 import { ExtendedItemType } from '../types';
 
 const CategoryChart = ({ data }: { data?: ExtendedItemType[] }) => {
@@ -23,19 +26,20 @@ const CategoryChart = ({ data }: { data?: ExtendedItemType[] }) => {
     <View style={styles.container}>
       <PieChart
         donut
-        showGradient
         sectionAutoFocus
         radius={120}
         innerRadius={80}
-        innerCircleColor={colors.screenBackground}
+        innerCircleColor={colors.background}
         focusOnPress
         centerLabelComponent={() => {
           return (
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontSize: 22, fontWeight: 'bold' }}>
+            <View style={styles.centerLabel}>
+              <Text style={styles.percentage}>
                 {selectedSection?.percentage || 100}%
               </Text>
-              <Text style={{ fontSize: 14 }}>{selectedSection?.text}</Text>
+              <Text style={styles.categoryName}>
+                {selectedSection?.text}
+              </Text>
             </View>
           );
         }}
@@ -54,7 +58,7 @@ const CategoryChart = ({ data }: { data?: ExtendedItemType[] }) => {
         {data.map((item, index) => (
           <View key={index} style={styles.itemContainer}>
             <View style={[styles.indicator, { backgroundColor: item.color }]} />
-            <Text>
+            <Text style={styles.legendText}>
               {item?.text}: {item?.value.toFixed(2)}€
             </Text>
           </View>
@@ -66,14 +70,16 @@ const CategoryChart = ({ data }: { data?: ExtendedItemType[] }) => {
               { borderColor: colors.primary, borderWidth: 2 },
             ]}
           />
-
-          <Text>Total: {total?.toFixed(2)}€</Text>
+          <Text style={styles.legendText}>Total: {total?.toFixed(2)}€</Text>
         </View>
       </View>
     </View>
   ) : (
-    <View style={styles.noData}>
-      <Text>No data</Text>
+    <View style={styles.noDataCard}>
+      <Text style={styles.noDataTitle}>No data for this period</Text>
+      <Text style={styles.noDataText}>
+        Add or upload expenses to see category breakdown.
+      </Text>
     </View>
   );
 };
@@ -82,31 +88,77 @@ export default CategoryChart;
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    width: '95%',
+    alignSelf: 'center',
     alignItems: 'center',
-    marginTop: -60,
+    marginTop: spacing.md,
+    paddingVertical: spacing.lg,
+    paddingHorizontal: spacing.base,
+    borderRadius: radius.lg,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.base,
   },
-  noData: {
-    flex: 1,
+  centerLabel: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  percentage: {
+    fontSize: textStyles.h1.fontSize,
+    fontWeight: textStyles.h1.fontWeight,
+    color: colors.textPrimary,
+  },
+  categoryName: {
+    fontSize: textStyles.small.fontSize,
+    color: colors.textSecondary,
+    marginTop: spacing.xs,
+  },
+  noDataCard: {
+    width: '95%',
+    alignSelf: 'center',
+    minHeight: 120,
+    marginTop: spacing.md,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceSecondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: spacing.base,
+    paddingVertical: spacing.lg,
+    gap: spacing.xs,
+  },
+  noDataTitle: {
+    color: colors.textSecondary,
+    fontSize: textStyles.body.fontSize,
+    fontWeight: textStyles.bodyMedium.fontWeight,
+  },
+  noDataText: {
+    color: colors.textMuted,
+    fontSize: textStyles.small.fontSize,
+    textAlign: 'center',
   },
   legend: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 16,
+    gap: spacing.md,
     justifyContent: 'center',
-    marginTop: 16,
+    marginTop: spacing.base,
   },
   indicator: {
-    height: 16,
-    width: 16,
-    borderRadius: 16,
-    marginRight: 16,
+    height: 14,
+    width: 14,
+    borderRadius: radius.xs,
+    marginRight: spacing.sm,
   },
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  legendText: {
+    color: colors.textSecondary,
+    fontSize: textStyles.small.fontSize,
+    fontWeight: textStyles.smallMedium.fontWeight,
   },
 });

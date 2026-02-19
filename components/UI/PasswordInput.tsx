@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import colors from '../../colors';
+import spacing from '../../spacing';
 import { PasswordInputProps } from '../../types';
 import IconButton from './IconButton';
 import Input from './Input';
@@ -22,7 +23,8 @@ const PasswordInput = ({ label, invalid, ...rest }: PasswordInputProps) => {
         style={styles.icon}
         onPress={() => setIsSecure(!isSecure)}
         iconName={isSecure ? 'eye-outline' : 'eye-off-outline'}
-        color={colors.primary}
+        color={colors.textSecondary}
+        size={20}
       />
     </View>
   );
@@ -31,9 +33,8 @@ const PasswordInput = ({ label, invalid, ...rest }: PasswordInputProps) => {
 const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
-    right: 20,
+    right: spacing.md,
     top: 0,
-    opacity: 0.5,
     height: '100%',
     justifyContent: 'center',
     zIndex: 2,

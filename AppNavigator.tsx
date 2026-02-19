@@ -26,7 +26,10 @@ const AppNavigator = () => {
     colors: {
       ...DefaultTheme.colors,
       background: colors.screenBackground,
-      colors: { text: colors.accent },
+      text: colors.textPrimary,
+      card: colors.surface,
+      border: colors.border,
+      primary: colors.primary,
     },
   };
 
@@ -70,7 +73,7 @@ const AppNavigator = () => {
 
   return (
     <>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <NavigationContainer theme={MyTheme}>
         {storedUser ? (
           <Bottom.Navigator
@@ -78,7 +81,7 @@ const AppNavigator = () => {
               headerRight: ({ tintColor }) => (
                 <IconButton
                   iconName="log-out-outline"
-                  color={tintColor || colors.white}
+                  color={tintColor || colors.textInverse}
                   onPress={logOut}
                 />
               ),
@@ -120,12 +123,31 @@ const AppNavigator = () => {
               },
 
               headerStyle: {
-                backgroundColor: colors.headerBackground,
+                backgroundColor: colors.primary,
               },
-              headerTintColor: colors.secondary,
-              tabBarStyle: { backgroundColor: colors.headerBackground },
-              tabBarActiveTintColor: colors.secondary,
-              tabBarInactiveTintColor: colors.screenBackground,
+              headerTitleStyle: {
+                fontSize: 18,
+                fontWeight: '700',
+              },
+              headerTintColor: colors.textInverse,
+              headerShadowVisible: false,
+              tabBarStyle: {
+                position: 'absolute',
+                left: 12,
+                right: 12,
+                bottom: 16,
+                borderRadius: 16,
+                height: 68,
+                paddingBottom: 8,
+                paddingTop: 8,
+                backgroundColor: colors.primary,
+                borderTopWidth: 0,
+                borderWidth: 1,
+                borderColor: colors.borderStrong,
+              },
+              sceneStyle: { backgroundColor: colors.background },
+              tabBarActiveTintColor: colors.textInverse,
+              tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.5)',
             })}
           >
             <Bottom.Screen name="Dashboard" component={Dashboard} />

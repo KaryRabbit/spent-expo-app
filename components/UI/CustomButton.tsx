@@ -1,9 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../../colors';
-import { lightenHexColor } from '../../service/tools';
+import shadows from '../../shadows';
+import spacing, { radius } from '../../spacing';
+import { textStyles } from '../../typography';
 import { CustomButtonProps } from '../../types';
 
 const CustomButton = ({
@@ -14,71 +15,58 @@ const CustomButton = ({
   disabled = false,
   style,
 }: CustomButtonProps) => {
-  const lighterColor = lightenHexColor(color, 15);
-
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      style={[styles.buttonContainer, style]}
+      activeOpacity={0.7}
+      style={[
+        styles.buttonContainer,
+        disabled ? styles.buttonDisabled : { backgroundColor: color },
+        style,
+      ]}
     >
-      <LinearGradient
-        colors={
-          disabled ? [colors.disabled, colors.disabled1] : [color, lighterColor]
-        }
-        style={styles.buttonGradient}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-      >
-        <View style={styles.buttonContent}>
-          <Ionicons
-            name={iconName}
-            size={25}
-            color={disabled ? colors.disabledText : colors.white}
-          />
-          <Text style={[styles.text, disabled && styles.disabledText]}>
-            {title}
-          </Text>
-        </View>
-      </LinearGradient>
+      <View style={styles.buttonBody}>
+        <Ionicons
+          name={iconName as any}
+          size={20}
+          color={disabled ? colors.disabledText : colors.textInverse}
+        />
+        <Text style={[styles.text, disabled && styles.disabledText]}>
+          {title}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    borderRadius: 24,
+    borderRadius: radius.md,
     overflow: 'hidden',
-    marginVertical: 8,
+    marginVertical: spacing.xs,
+    ...shadows.sm,
   },
-  button: {
+  buttonBody: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 24,
+    alignItems: 'center',
+    gap: spacing.sm,
     minHeight: 48,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
   },
-  buttonGradient: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    minHeight: 48, // Or any fixed height you prefer
-    paddingHorizontal: 20,
-  },
-  buttonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  disabled: {
+  buttonDisabled: {
     backgroundColor: colors.disabled,
   },
   text: {
-    color: colors.white,
-    marginLeft: 5,
+    color: colors.textInverse,
+    fontSize: textStyles.button.fontSize,
+    fontWeight: textStyles.button.fontWeight,
+    letterSpacing: 0.3,
   },
   disabledText: {
     color: colors.disabledText,
-    marginLeft: 5,
   },
 });
 

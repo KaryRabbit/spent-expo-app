@@ -1,6 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Animated,
   FlatList,
@@ -14,7 +13,9 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import colors from '../colors';
-import { lightenHexColor } from '../service/tools';
+import shadows from '../shadows';
+import spacing, { radius } from '../spacing';
+import { textStyles } from '../typography';
 import { deleteExpense } from '../store/expensesSlice';
 import { AppDispatch } from '../store/store';
 import { ExpenseItem, ExpensesListProps } from '../types';
@@ -22,13 +23,16 @@ import IconButton from './UI/IconButton';
 
 const ExpensesList = ({ expenses, onEditItem }: ExpensesListProps) => {
   const [selectedId, setSelectedId] = useState<string | null | undefined>(null);
+  const prevLengthRef = useRef(expenses.length);
 
-  if (
-    Platform.OS === 'android' &&
-    UIManager.setLayoutAnimationEnabledExperimental
-  ) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
+  useEffect(() => {
+    if (
+      Platform.OS === 'android' &&
+      UIManager.setLayoutAnimationEnabledExperimental
+    ) {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -37,7 +41,10 @@ const ExpensesList = ({ expenses, onEditItem }: ExpensesListProps) => {
   );
 
   useEffect(() => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (prevLengthRef.current !== expenses.length) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      prevLengthRef.current = expenses.length;
+    }
   }, [expenses]);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -70,7 +77,11 @@ const ExpensesList = ({ expenses, onEditItem }: ExpensesListProps) => {
 
     return (
       <Animated.View style={styles.listItem}>
-        <TouchableOpacity onPress={onItemPress} style={styles.itemContent}>
+        <TouchableOpacity
+          onPress={onItemPress}
+          style={styles.itemContent}
+          activeOpacity={0.85}
+        >
           <View style={styles.leftSide}>
             <Text
               style={styles.boldText}
@@ -88,33 +99,23 @@ const ExpensesList = ({ expenses, onEditItem }: ExpensesListProps) => {
         {selectedId === item.id && (
           <View style={styles.buttonsContainer}>
             {onEditItem && (
-              <LinearGradient
-                colors={[colors.primary, lightenHexColor(colors.primary, 15)]}
-                style={styles.button}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0, y: 1 }}
-              >
+              <View style={[styles.button, styles.editButton]}>
                 <IconButton
                   size={20}
                   onPress={onEditItem?.bind(this, item)}
                   iconName={'eye'}
                   color={colors.secondary}
                 />
-              </LinearGradient>
+              </View>
             )}
-            <LinearGradient
-              colors={[colors.accent, lightenHexColor(colors.accent, 15)]}
-              style={styles.button}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 0, y: 1 }}
-            >
+            <View style={[styles.button, styles.deleteButton]}>
               <IconButton
                 size={20}
                 onPress={onRemoveItem}
                 iconName={'trash'}
                 color={colors.white}
               />
-            </LinearGradient>
+            </View>
           </View>
         )}
       </Animated.View>
@@ -126,50 +127,66 @@ const ExpensesList = ({ expenses, onEditItem }: ExpensesListProps) => {
       data={expenses}
       renderItem={renderExpenseItem}
       keyExtractor={(item) => item.id || ''}
+      contentContainerStyle={styles.listContent}
     />
   );
 };
 
 const styles = StyleSheet.create({
+  listContent: {
+    paddingBottom: 100,
+  },
   listItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    overflow: 'hidden',
-    borderBottomColor: colors.disabled,
-    borderBottomWidth: 1,
+    borderRadius: radius.md,
+    marginHorizontal: spacing.md,
+    marginTop: spacing.sm,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.base,
   },
   itemContent: {
-    flex: 1,
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 32,
+    paddingVertical: spacing.base,
+    paddingHorizontal: spacing.base,
   },
   leftSide: {
     flex: 1,
+    marginRight: spacing.md,
   },
   dateText: {
-    color: colors.disabledText,
+    color: colors.textSecondary,
     maxWidth: '80%',
-    marginTop: 8,
+    marginTop: spacing.xs,
+    fontSize: textStyles.small.fontSize,
   },
   boldText: {
-    color: colors.disabledText,
-    fontWeight: 'bold',
+    color: colors.textPrimary,
+    fontWeight: textStyles.bodySemibold.fontWeight,
+    fontSize: textStyles.body.fontSize,
   },
   buttonsContainer: {
     flexDirection: 'row',
-    width: 80,
-    minHeight: 40,
-    gap: 4,
-    marginRight: 4,
+    width: 98,
+    minHeight: 48,
+    gap: spacing.sm,
+    marginHorizontal: spacing.sm,
+    marginBottom: spacing.sm,
   },
   button: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 32,
+    borderRadius: radius.sm,
+  },
+  editButton: {
+    backgroundColor: colors.primary,
+  },
+  deleteButton: {
+    backgroundColor: colors.error,
   },
 });
 

@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import colors from '../../colors';
+import spacing, { radius } from '../../spacing';
+import { textStyles } from '../../typography';
 import { InputProps } from '../../types';
 
 const Input = ({ label, inputProps, invalid, style }: InputProps) => {
-  let inputStyles = [styles.input];
+  let inputStyles: any[] = [styles.input];
   if (inputProps?.multiline) {
     inputStyles.push(styles.inputMultiLine);
   }
@@ -18,6 +20,7 @@ const Input = ({ label, inputProps, invalid, style }: InputProps) => {
       <TextInput
         style={[inputStyles, style]}
         placeholder={label}
+        placeholderTextColor={colors.textMuted}
         {...inputProps}
       />
     </View>
@@ -28,19 +31,23 @@ export default Input;
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: colors.white,
-    padding: 10,
-    borderRadius: 16,
-    fontSize: 16,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: spacing.base,
+    paddingVertical: spacing.md,
+    borderRadius: radius.md,
+    fontSize: textStyles.body.fontSize,
+    color: colors.textPrimary,
     minHeight: 48,
     maxHeight: 300,
   },
   inputMultiLine: {
-    minHeight: 100,
+    minHeight: 120,
     textAlignVertical: 'top',
   },
   invalidField: {
-    borderColor: colors.accent,
-    borderWidth: 1,
+    borderColor: colors.error,
+    borderWidth: 1.5,
   },
 });

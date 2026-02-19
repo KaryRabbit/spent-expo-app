@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import colors from '../colors';
+import spacing, { radius } from '../spacing';
+import { textStyles } from '../typography';
 import ExpensesList from '../components/ExpensesList';
 import CustomButton from '../components/UI/CustomButton';
 import { fetchExpenses } from '../store/expensesSlice';
@@ -64,17 +66,19 @@ const HistoryScreen = () => {
           onPress={() =>
             setShowStartDatePicker((currentValue) => !currentValue)
           }
-          title="Choose Start Date"
+          title="Start Date"
+          style={styles.button}
         />
 
         <CustomButton
           color={colors.primary}
           iconName="calendar-outline"
           onPress={() => setShowEndDatePicker((currentValue) => !currentValue)}
-          title="Choose End Date"
+          title="End Date"
+          style={styles.button}
         />
       </View>
-      <View style={[styles.datePicker, { justifyContent: 'center' }]}>
+      <View style={styles.pickerContainer}>
         {showStartDatePicker && (
           <DateTimePicker
             value={startDate}
@@ -97,7 +101,7 @@ const HistoryScreen = () => {
         <ExpensesList expenses={sortedTransactions} />
       ) : (
         <View style={styles.noData}>
-          <Text>Please choose the period</Text>
+          <Text style={styles.noDataText}>Please choose a period</Text>
         </View>
       )}
     </>
@@ -112,10 +116,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  noDataText: {
+    color: colors.textMuted,
+    fontSize: textStyles.body.fontSize,
+    fontWeight: textStyles.bodyMedium.fontWeight,
+  },
   datePicker: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginHorizontal: 8,
+    gap: spacing.sm,
+    marginHorizontal: spacing.base,
+    marginTop: spacing.base,
+  },
+  button: {
+    flex: 1,
+  },
+  pickerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: spacing.base,
   },
 });

@@ -17,6 +17,7 @@ import CustomButton from '../components/UI/CustomButton';
 import IconButton from '../components/UI/IconButton';
 import ModalView from '../components/UI/ModalView';
 import { selectAndParseFile } from '../service/fileService';
+import spacing from '../spacing';
 import {
   addExpense,
   addExpensesAndFetch,
@@ -25,6 +26,7 @@ import {
 } from '../store/expensesSlice';
 import { AppDispatch, RootState } from '../store/store';
 import { ExpenseItem } from '../types';
+import { textStyles } from '../typography';
 
 const ExpensesScreen = ({ navigation }: any) => {
   const [showForm, setShowForm] = useState(false);
@@ -42,7 +44,7 @@ const ExpensesScreen = ({ navigation }: any) => {
     useCallback(() => {
       setShowForm(false);
       setSelectedItem(null);
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
@@ -127,13 +129,17 @@ const ExpensesScreen = ({ navigation }: any) => {
           />
           <CustomButton
             style={{ flex: 1 }}
-            title="Upload Expenses"
+            title="Upload"
             onPress={handleUploadExpenses}
             iconName="cloud-upload-outline"
             color={colors.primary}
           />
           <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Ionicons name="help-circle-outline" size={24} color="black" />
+            <Ionicons
+              name="help-circle-outline"
+              size={28}
+              color={colors.textMuted}
+            />
           </TouchableOpacity>
         </View>
 
@@ -153,7 +159,7 @@ const ExpensesScreen = ({ navigation }: any) => {
           <ExpensesList expenses={sorted} onEditItem={handleEditItem} />
         ) : (
           <View style={styles.noData}>
-            <Text>No data</Text>
+            <Text style={styles.noDataText}>No data yet</Text>
           </View>
         )}
       </>
@@ -164,13 +170,15 @@ const ExpensesScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: spacing.sm,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
-    marginHorizontal: 8,
+    gap: spacing.sm,
+    marginHorizontal: spacing.base,
+    marginBottom: spacing.sm,
   },
   loader: {
     flex: 1,
@@ -181,6 +189,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  noDataText: {
+    color: colors.textMuted,
+    fontSize: textStyles.body.fontSize,
+    fontWeight: textStyles.bodyMedium.fontWeight,
   },
 });
 
